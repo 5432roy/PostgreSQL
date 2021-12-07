@@ -109,3 +109,39 @@ SELECT name,
     -- 'cool', 'not so cool'... etc will be in here
     END AS "New property"
 FROM note;
+
+-- the result will be the number of the selected rows with non-empty values
+SELECT COUNT(*) FROM note;
+
+-- SUM() is a function that takes the name of a column as an argument and returns the sum of all the values in that column.
+SELECT SUM(id) FROM note;
+
+-- The MAX() and MIN() functions return the highest and lowest values in a column, respectively.
+SELECT MAX(id) FROM note;
+
+-- AVG() function to quickly calculate the average value of a particular column.
+SELECT AVG(id) FROM note;
+
+-- ROUND(value, Integer) rounds the values in the column to the number of decimal places specified by the integer.
+SELECT name, ROUND(id, 0)
+FROM note;
+-- or this will output the avg of price and round it to 0.00
+SELECT ROUND(AVG(price), 2)
+FROM note;
+
+-- GROUP BY, this command will put the same category together inorder
+SELECT id, name, calendar
+FROM note
+GROUP BY name;
+-- can have more than one GROUP like
+SELECT id, name, calendar
+FROM note
+-- 1 is the first column for SELECT, in here id, 2 is name...
+GROUP BY 1, 2
+ORDER BY 1 DESC;
+
+-- HAVING is pretty similar with WHERE but HAVING are more often used with GROUP BY, and before ORDER BY and LIMIT
+SELECT id, name, COUNT(*)
+FROM note
+GROUP BY name
+HAVING COUNT(*) > 5;
