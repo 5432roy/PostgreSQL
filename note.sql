@@ -1,7 +1,7 @@
 CREATE TABLE note(
     -- SERIAL is the auto increment
     -- PRIMARY KEY is the unique key for every row
-    -- doesn't have to provide information for this row while inserting
+    -- SERIAL property doesn't have to provide information for this row while inserting
     id SERIAL PRIMARY KEY,
     -- NOT NULL is a CONSTRAINT for the property, while adding new thing, it is required to provide this information 
     name TEXT NOT NULL,
@@ -141,7 +141,40 @@ GROUP BY 1, 2
 ORDER BY 1 DESC;
 
 -- HAVING is pretty similar with WHERE but HAVING are more often used with GROUP BY, and before ORDER BY and LIMIT
-SELECT id, name, COUNT(*)
+SELECT id, name, COUNT(*) AS 'numbers of things'
 FROM note
 GROUP BY name
 HAVING COUNT(*) > 5;
+
+-- Creating another table to do multiple tables operations
+CREATE TABLE temp(
+    -- the PRIMARY KEY stored in/used by other table will be called 'foregin key' 
+    id SERIAL PRIMARY KEY
+    birthday DATE
+    email TEXT
+);
+
+
+-- Dealing with multiple tables "Join table_name ON matching_property1 = matching_property2"
+-- For "JOIN" if there is anything that two properties cannot match, the output will ignore that row automatically, which is so called "inner join"
+-- To get the property(column) from table, use "table_name.column_name"
+SELECT * 
+FROM note
+JOIN temp
+ON note.id = temp.id;
+
+-- For "LEFT JOIN" the mismatching will still be operated but the property from second table will be set to null
+SELECT *
+FROM note
+JOIN temp
+ON note.id = temp.id
+-- this will only show the things in note but not in temp;
+WHERE temp.id IS NULL;
+
+-- "CROSS JOIN" the output of the query will be the all combination from all selected columns both tables;
+SELECT id
+FROM note
+CROSS JOIN temp;
+
+-- "UNION" this will simpliy put two table together without doing other fancy things
+-- restriction: two tables have to have same number of selected columns and same types of date
